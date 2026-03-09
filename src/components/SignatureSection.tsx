@@ -40,14 +40,14 @@ function DishCard({ dish, index }: { dish: typeof dishes[0]; index: number }) {
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
+      transition={{ duration: 0.9, ease: "easeOut" }}
       className={`grid md:grid-cols-2 gap-12 items-center ${isReversed ? "md:[direction:rtl]" : ""}`}
     >
       {/* Image */}
       <motion.div
         initial={{ opacity: 0, x: isReversed ? 60 : -60 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: isReversed ? 60 : -60 }}
-        transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.05 }}
+        transition={{ duration: 1, ease: "easeOut", delay: 0.05 }}
         className={`relative overflow-hidden ${isReversed ? "md:[direction:ltr]" : ""}`}
       >
         <img

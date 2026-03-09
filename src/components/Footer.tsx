@@ -14,7 +14,7 @@ export default function Footer() {
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
-          transition={{ duration: 0.75, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: 0.75, ease: "easeOut" }}
           className="md:col-span-1"
         >
           <div className="font-display text-3xl text-cream tracking-widest mb-4">
