@@ -14,14 +14,16 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.85, ease: [0.25, 0.1, 0.25, 1], delay },
 });
 
+const EASE = "easeOut" as const;
+
 const fadeLeft = (delay = 0) => ({
   initial: { opacity: 0, x: -48 },
-  transition: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1], delay },
+  transition: { duration: 0.9, ease: EASE, delay },
 });
 
 const fadeRight = (delay = 0) => ({
   initial: { opacity: 0, x: 48 },
-  transition: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1], delay },
+  transition: { duration: 0.9, ease: EASE, delay },
 });
 
 export default function AboutSection() {
