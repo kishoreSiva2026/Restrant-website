@@ -1,5 +1,6 @@
-import { useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useReveal } from "@/hooks/use-reveal";
 
 type MenuItem = {
   name: string;
@@ -62,33 +63,57 @@ const tagColors: Record<string, string> = {
 
 export default function MenuSection() {
   const [activeTab, setActiveTab] = useState("starters");
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const [headerRef, headerInView] = useReveal("-60px");
+  const [tabsRef, tabsInView] = useReveal("-40px");
 
   const active = menuData.find((c) => c.id === activeTab)!;
 
   return (
-    <section id="menu" className="py-24 md:py-36" style={{ background: "var(--gradient-section)" }} ref={ref}>
+    <section id="menu" className="py-24 md:py-36" style={{ background: "var(--gradient-section)" }}>
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <p className="section-label mb-4">Culinary Journey</p>
-          <h2 className="font-display text-4xl md:text-6xl text-cream mb-5">
+        <div ref={headerRef} className="text-center mb-16">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            transition={{ duration: 0.6 }}
+            className="section-label mb-4"
+          >
+            Culinary Journey
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            transition={{ duration: 0.75, delay: 0.12 }}
+            className="font-display text-4xl md:text-6xl text-cream mb-5"
+          >
             Our <span className="text-gold italic">Menu</span>
-          </h2>
-          <div className="gold-divider mb-6" />
-          <p className="text-muted-foreground font-body max-w-xl mx-auto">
+          </motion.h2>
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={headerInView ? { scaleX: 1 } : { scaleX: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: "easeInOut" }}
+            className="gold-divider mb-6"
+            style={{ transformOrigin: "center" }}
+          />
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            transition={{ duration: 0.65, delay: 0.4 }}
+            className="text-muted-foreground font-body max-w-xl mx-auto"
+          >
             Inspired by the seasons. Defined by craft. Each dish is a reflection of our commitment to the extraordinary.
-          </p>
-        </motion.div>
+          </motion.p>
+        </div>
 
         {/* Tabs */}
-        <div className="flex justify-center gap-0 mb-14 border border-border w-fit mx-auto">
+        <motion.div
+          ref={tabsRef}
+          initial={{ opacity: 0, y: 20 }}
+          animate={tabsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="flex justify-center gap-0 mb-14 border border-border w-fit mx-auto"
+        >
           {menuData.map((cat) => (
             <button
               key={cat.id}
@@ -102,7 +127,7 @@ export default function MenuSection() {
               {cat.label}
             </button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Menu Items Grid */}
         <motion.div
@@ -115,9 +140,9 @@ export default function MenuSection() {
           {active.items.map((item, i) => (
             <motion.div
               key={item.name}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.07 }}
+              transition={{ duration: 0.45, delay: i * 0.08 }}
               className="menu-card p-6 flex justify-between gap-4"
             >
               <div className="flex-1">
@@ -140,14 +165,19 @@ export default function MenuSection() {
           ))}
         </motion.div>
 
-        <div className="text-center mt-14">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: active.items.length * 0.08 + 0.1 }}
+          className="text-center mt-14"
+        >
           <p className="text-muted-foreground text-sm font-body mb-5">
             Seasonal menu updated weekly · Dietary requirements available on request
           </p>
           <a href="#reservations" className="btn-outline-gold">
             Reserve Your Experience
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
