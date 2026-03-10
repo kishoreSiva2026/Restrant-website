@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useReveal } from "@/hooks/use-reveal";
 import { Calendar, Clock, Users, User, Mail, Phone, MessageSquare } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const timeSlots = ["6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM", "8:30 PM", "9:00 PM", "9:30 PM"];
 
@@ -9,14 +10,36 @@ export default function ReservationSection() {
   const [headerRef, headerInView] = useReveal("-60px");
   const [formRef, formInView] = useReveal("-40px");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: "", email: "", phone: "", guests: "2", date: "", time: "7:00 PM", notes: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    const { error: insertError } = await supabase.from("reservations").insert({
+      name: form.name,
+      email: form.email,
+      phone: form.phone || null,
+      guests: parseInt(form.guests),
+      date: form.date,
+      time: form.time,
+      notes: form.notes || null,
+    });
+
+    setLoading(false);
+
+    if (insertError) {
+      setError("Something went wrong. Please try again or call us directly.");
+      return;
+    }
+
     setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
+    setTimeout(() => setSubmitted(false), 5000);
     setForm({ name: "", email: "", phone: "", guests: "2", date: "", time: "7:00 PM", notes: "" });
   };
 
@@ -78,7 +101,7 @@ export default function ReservationSection() {
               <div className="w-16 h-16 border border-gold mx-auto mb-6 flex items-center justify-center">
                 <span className="text-gold text-2xl font-display">✓</span>
               </div>
-              <h3 className="font-display text-2xl text-cream mb-3">Reservation Confirmed</h3>
+              <h3 className="font-display text-2xl text-cream mb-3">Reservation Received</h3>
               <p className="text-muted-foreground font-body">
                 We look forward to welcoming you. A confirmation will be sent to your email shortly.
               </p>
@@ -148,9 +171,15 @@ export default function ReservationSection() {
                   rows={4} className={`${inputClass} pl-11 resize-none`} />
               </div>
 
+              {error && (
+                <p className="text-sm text-center font-body" style={{ color: "hsl(var(--destructive))" }}>
+                  {error}
+                </p>
+              )}
+
               <div className="text-center pt-2">
-                <button type="submit" className="btn-gold w-full sm:w-auto px-16">
-                  Confirm Reservation
+                <button type="submit" disabled={loading} className="btn-gold w-full sm:w-auto px-16 disabled:opacity-60">
+                  {loading ? "Reserving..." : "Confirm Reservation"}
                 </button>
               </div>
             </form>
