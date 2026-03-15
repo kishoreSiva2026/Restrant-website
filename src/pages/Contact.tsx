@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import type { Easing } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Twitter, Send } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -10,10 +11,11 @@ const hours = [
   { days: "Sunday", time: "6:00 PM – 10:00 PM" },
 ];
 
+const EASE: Easing = "easeOut";
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.75, ease: "easeOut", delay },
+  transition: { duration: 0.75, ease: EASE, delay },
 });
 
 export default function Contact() {
