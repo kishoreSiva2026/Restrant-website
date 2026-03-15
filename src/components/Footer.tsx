@@ -1,6 +1,15 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { useReveal } from "@/hooks/use-reveal";
 import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Twitter } from "lucide-react";
+
+const navLinks = [
+  { label: "About", href: "/about" },
+  { label: "Menu", href: "/menu" },
+  { label: "Signature Dishes", href: "/signature" },
+  { label: "Reservations", href: "/reservation" },
+  { label: "Contact", href: "/contact" },
+];
 
 const navLinks = ["About", "Menu", "Signature Dishes", "Reservations", "Private Dining", "Gift Cards"];
 
