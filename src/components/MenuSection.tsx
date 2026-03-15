@@ -174,7 +174,7 @@ export default function MenuSection() {
           <p className="text-muted-foreground text-sm font-body mb-5">
             Seasonal menu updated weekly · Dietary requirements available on request
           </p>
-          <a href="#reservations" className="btn-outline-gold">
+          <a href="/reservation" className="btn-outline-gold">
             Reserve Your Experience
           </a>
         </motion.div>

@@ -100,7 +100,7 @@ function DishCard({ dish, index }: { dish: typeof dishes[0]; index: number }) {
           {dish.description}
         </motion.p>
         <motion.a
-          href="#menu"
+          href="/menu"
           initial={{ opacity: 0, y: 12 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
           transition={{ duration: 0.6, delay: 0.65 }}

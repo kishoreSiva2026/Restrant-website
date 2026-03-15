@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-restaurant.jpg";
 
 export default function HeroSection() {
@@ -61,12 +62,12 @@ export default function HeroSection() {
           transition={{ delay: 1.1, duration: 0.8 }}
           className="flex flex-wrap gap-4"
         >
-          <a href="#reservations" className="btn-gold">
+          <Link to="/reservation" className="btn-gold">
             Reserve Your Table
-          </a>
-          <a href="#menu" className="btn-outline-gold">
+          </Link>
+          <Link to="/menu" className="btn-outline-gold">
             Explore Menu
-          </a>
+          </Link>
         </motion.div>
       </div>
 
