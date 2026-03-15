@@ -3,15 +3,13 @@ import { Link } from "react-router-dom";
 import { useReveal } from "@/hooks/use-reveal";
 import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Twitter } from "lucide-react";
 
-const navLinks = [
+const footerLinks = [
   { label: "About", href: "/about" },
   { label: "Menu", href: "/menu" },
   { label: "Signature Dishes", href: "/signature" },
   { label: "Reservations", href: "/reservation" },
   { label: "Contact", href: "/contact" },
 ];
-
-const navLinks = ["About", "Menu", "Signature Dishes", "Reservations", "Private Dining", "Gift Cards"];
 
 export default function Footer() {
   const [ref, isInView] = useReveal("-40px");
@@ -26,9 +24,9 @@ export default function Footer() {
           transition={{ duration: 0.75, ease: "easeOut" }}
           className="md:col-span-1"
         >
-          <div className="font-display text-3xl text-cream tracking-widest mb-4">
+          <Link to="/" className="font-display text-3xl text-cream tracking-widest mb-4 block">
             Aurum<span className="text-gold">.</span>
-          </div>
+          </Link>
           <p className="text-muted-foreground font-body font-light text-sm leading-relaxed mb-6">
             A sanctuary for the discerning palate. Fine dining elevated by passion and precision.
           </p>
@@ -56,16 +54,16 @@ export default function Footer() {
         >
           <h4 className="section-label mb-6 text-cream">Navigation</h4>
           <ul className="space-y-3">
-            {navLinks.map((l, i) => (
+            {footerLinks.map((l, i) => (
               <motion.li
-                key={l}
+                key={l.href}
                 initial={{ opacity: 0, x: -12 }}
                 animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
                 transition={{ duration: 0.4, delay: 0.25 + i * 0.06 }}
               >
-                <a href="#" className="text-muted-foreground hover:text-gold font-body text-sm transition-colors">
-                  {l}
-                </a>
+                <Link to={l.href} className="text-muted-foreground hover:text-gold font-body text-sm transition-colors">
+                  {l.label}
+                </Link>
               </motion.li>
             ))}
           </ul>
@@ -125,15 +123,12 @@ export default function Footer() {
             </li>
           </ul>
           <div className="mt-8">
-            <motion.a
-              href="#reservations"
-              initial={{ opacity: 0, y: 10 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, delay: 0.55 }}
+            <Link
+              to="/reservation"
               className="btn-gold text-xs py-3 px-6 inline-flex"
             >
               Reserve Now
-            </motion.a>
+            </Link>
           </div>
         </motion.div>
       </div>
