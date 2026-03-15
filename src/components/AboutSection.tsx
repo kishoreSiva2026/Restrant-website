@@ -99,15 +99,13 @@ export default function AboutSection() {
               Our menus change with the seasons, guided by the finest local producers and global artisans. Every plate is an invitation — to slow down, savour, and celebrate.
             </motion.p>
 
-            <motion.a
-              href="#menu"
+      <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
               transition={{ duration: 0.6, delay: 0.75 }}
-              className="btn-gold inline-flex"
             >
-              Discover Our Menu
-            </motion.a>
+              <a href="/menu" className="btn-gold inline-flex">Discover Our Menu</a>
+            </motion.div>
           </motion.div>
         </div>
 
