@@ -58,7 +58,8 @@ export default function Projects() {
     if (editId) {
       await supabase.from("projects").update({ ...form, updated_at: new Date().toISOString() }).eq("id", editId);
     } else {
-      await supabase.from("projects").insert(form);
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) await supabase.from("projects").insert({ ...form, user_id: user.id });
     }
     setSaving(false);
     setShowForm(false);

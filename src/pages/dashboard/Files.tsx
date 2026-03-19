@@ -57,6 +57,7 @@ export default function FilesPage() {
         storage_path: path,
         mime_type: file.type || null,
         size_bytes: file.size,
+        user_id: user.id,
       });
       fetchFiles();
     }
