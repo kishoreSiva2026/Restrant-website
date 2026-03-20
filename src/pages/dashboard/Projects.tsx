@@ -40,6 +40,12 @@ export default function Projects() {
 
   useEffect(() => { fetch(); }, []);
 
+  useRealtimeProjects({
+    onInsert: (p) => setProjects(prev => [p as Project, ...prev]),
+    onUpdate: (p) => setProjects(prev => prev.map(x => x.id === p.id ? { ...x, ...p } as Project : x)),
+    onDelete: (p) => setProjects(prev => prev.filter(x => x.id !== p.id)),
+  });
+
   const openCreate = () => {
     setEditId(null);
     setForm({ name: "", description: "", status: "active" });
