@@ -11,19 +11,32 @@ export default function DashboardOverview() {
   const [recentProjects, setRecentProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const load = async () => {
-      const [{ count: projectCount }, { count: fileCount }, { data: recent }] = await Promise.all([
-        supabase.from("projects").select("*", { count: "exact", head: true }),
-        supabase.from("files").select("*", { count: "exact", head: true }),
-        supabase.from("projects").select("*").order("created_at", { ascending: false }).limit(5),
-      ]);
-      setStats({ projects: projectCount ?? 0, files: fileCount ?? 0 });
-      setRecentProjects(recent ?? []);
-      setLoading(false);
-    };
-    load();
-  }, []);
+  const load = async () => {
+    const [{ count: projectCount }, { count: fileCount }, { data: recent }] = await Promise.all([
+      supabase.from("projects").select("*", { count: "exact", head: true }),
+      supabase.from("files").select("*", { count: "exact", head: true }),
+      supabase.from("projects").select("*").order("created_at", { ascending: false }).limit(5),
+    ]);
+    setStats({ projects: projectCount ?? 0, files: fileCount ?? 0 });
+    setRecentProjects(recent ?? []);
+    setLoading(false);
+  };
+
+  useEffect(() => { load(); }, []);
+
+  useRealtimeProjects({
+    onInsert: (p) => {
+      setStats(s => ({ ...s, projects: s.projects + 1 }));
+      setRecentProjects(prev => [p as any, ...prev].slice(0, 5));
+    },
+    onUpdate: (p) => {
+      setRecentProjects(prev => prev.map(x => x.id === p.id ? { ...x, ...p } : x));
+    },
+    onDelete: (p) => {
+      setStats(s => ({ ...s, projects: Math.max(0, s.projects - 1) }));
+      setRecentProjects(prev => prev.filter(x => x.id !== p.id));
+    },
+  });
 
   const STATUS_COLORS: Record<string, string> = {
     active: "text-emerald-400 bg-emerald-900/30 border-emerald-700/40",
