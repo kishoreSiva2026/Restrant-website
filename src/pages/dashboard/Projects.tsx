@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Plus, Pencil, Trash2, FolderKanban, X, Check } from "lucide-react";
+import { useRealtimeProjects } from "@/hooks/use-realtime-projects";
 
 type Project = {
   id: string;

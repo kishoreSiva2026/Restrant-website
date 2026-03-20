@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { FolderKanban, Files, TrendingUp, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useRealtimeProjects } from "@/hooks/use-realtime-projects";
 
 export default function DashboardOverview() {
   const { user } = useAuth();
