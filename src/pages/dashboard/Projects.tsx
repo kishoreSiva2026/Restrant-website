@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Plus, Pencil, Trash2, FolderKanban, X, Check } from "lucide-react";
+import { useRealtimeProjects } from "@/hooks/use-realtime-projects";
 
 type Project = {
   id: string;
@@ -38,6 +39,12 @@ export default function Projects() {
   };
 
   useEffect(() => { fetch(); }, []);
+
+  useRealtimeProjects({
+    onInsert: (p) => setProjects(prev => [p as Project, ...prev]),
+    onUpdate: (p) => setProjects(prev => prev.map(x => x.id === p.id ? { ...x, ...p } as Project : x)),
+    onDelete: (p) => setProjects(prev => prev.filter(x => x.id !== p.id)),
+  });
 
   const openCreate = () => {
     setEditId(null);
